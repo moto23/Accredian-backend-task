@@ -6,8 +6,35 @@ const dotenv = require('dotenv');
 
 dotenv.config();
 
+
 const app = express();
 const prisma = new PrismaClient();
+
+
+// Middleware
+app.use(cors());
+app.use(express.json()); // Middleware to parse JSON data
+
+
+app.use(cors(
+
+  {
+  
+  origin: ["https://accredian-frontend-task-orcin-iota.vercel.app"], 
+  methods: ["POST", "GET"],
+  credentials:true
+  
+  }
+  ));
+
+
+// Connect to MongoDB
+connectDB();
+app.get("/", (req, res) => { 
+   res.json("Hello");
+
+})
+
 
 app.use(bodyParser.json());
 
@@ -36,7 +63,7 @@ app.post('/api/referral', async (req, res) => {
       },
     });
 
-    const frontendUrl = 'http://your-frontend-url.com'; // Replace with your actual frontend URL
+    const frontendUrl = 'https://accredian-frontend-task-orcin-iota.vercel.app'; // Replace with your actual frontend URL
 
     const mailOptions = {
       from: process.env.EMAIL_USER,
